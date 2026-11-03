@@ -9,11 +9,20 @@ AI explanations. Runs out of the box on a **synthetic demo dataset** - no extern
 ## Setup
 ```bash
 # inside your project folder, with your virtual environment active
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 cp .env.example .env        # Windows: copy .env.example .env   (then edit; .env is git-ignored)
 streamlit run app.py
 ```
 The app works without an API key; only the **Explain My Results** button needs one.
+
+If Streamlit reports `No module named 'streamlit_folium'`, run the install
+command above using the same Python environment that starts Streamlit, then
+restart the app:
+
+```powershell
+python -m pip install streamlit-folium
+python -m streamlit run app.py
+```
 
 ## Configuration (environment variables, `.env`, or `.streamlit/secrets.toml`)
 | Name | Purpose |
