@@ -1,0 +1,2 @@
+"""Water quality analysis application."""
+

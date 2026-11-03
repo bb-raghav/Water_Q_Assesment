@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Water Quality Observatory</title>
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="preconnect" href="https://cdn.plot.ly">
+  <link rel="preconnect" href="https://tile.openstreetmap.org">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    :root { --ink:#172b3a; --muted:#6b7d89; --line:#e3eaed; --canvas:#f4f7f8; --panel:#fff; --nav:#123446; --teal:#087f82; --cyan:#57b5b2; --blue:#327fba; --orange:#df8b46; --red:#bd4c4c; --shadow:0 7px 24px rgba(24,54,72,.06); }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--canvas); color:var(--ink); font:14px/1.45 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    button,select,input { font:inherit; }
+    .shell { min-height:100vh; display:grid; grid-template-columns:244px minmax(0,1fr); }
+    .sidebar { background:var(--nav); color:#eaf3f5; padding:22px 14px; display:flex; flex-direction:column; gap:24px; }
+    .brand { display:flex; gap:12px; align-items:center; padding:4px 10px 16px; border-bottom:1px solid rgba(255,255,255,.12); }
+    .brand-mark { width:36px;height:36px;border-radius:12px;background:#1c696e;display:grid;place-items:center;font-size:20px; }
+    .brand h1 { margin:0;font-size:14px;letter-spacing:.04em; }
+    .brand span { display:block;color:#a9c1ca;font-size:11px;margin-top:2px; }
+    .nav-label { color:#91aeba;text-transform:uppercase;letter-spacing:.12em;font-size:10px;font-weight:700;padding:0 12px;margin-bottom:4px; }
+    nav { display:grid; gap:4px; }
+    nav button { color:#c8d8de;background:transparent;border:0;border-radius:9px;text-align:left;padding:10px 12px;cursor:pointer;display:flex;gap:11px;align-items:center;transition:.15s; }
+    nav button:hover { background:rgba(255,255,255,.09);color:white; }
+    nav button.active { color:white;background:#1b5868;box-shadow:inset 3px 0 #62c2bb; }
+    .nav-icon { width:18px;text-align:center;opacity:.9; }
+    .side-note { margin-top:auto;border:1px solid rgba(255,255,255,.13);border-radius:11px;padding:12px;color:#b9cdd4;font-size:11px; }
+    .side-note strong { color:#eaf3f5;display:block;margin-bottom:4px; }
+    .main { min-width:0; }
+    .topbar { background:#fff;border-bottom:1px solid var(--line);padding:14px 26px;display:flex;align-items:center;justify-content:space-between;gap:20px;position:sticky;top:0;z-index:500; }
+    .crumb { color:var(--muted);font-size:12px; }
+    .crumb strong { color:var(--ink);font-weight:650; }
+    .scope-pill { border-radius:99px;background:#e8f4f2;color:#126a68;padding:6px 10px;font-size:11px;font-weight:700;white-space:nowrap; }
+    .global-filters { display:flex;align-items:center;gap:8px;flex-wrap:wrap; }
+    select,input { color:var(--ink);background:#fff;border:1px solid #dce5e9;border-radius:8px;padding:8px 10px;outline:none; }
+    select:focus,input:focus { border-color:#42a3a0;box-shadow:0 0 0 3px rgba(66,163,160,.12); }
+    .global-filters select,.global-filters input { font-size:12px;max-width:180px; }
+    .content { max-width:1500px;margin:auto;padding:25px 27px 42px; }
+    .page-head { display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:19px; }
+    .page-head h2 { margin:0;font-size:25px;letter-spacing:-.03em; }
+    .page-head p { margin:6px 0 0;color:var(--muted);max-width:750px; }
+    .eyebrow { color:var(--teal);font-size:10px;text-transform:uppercase;letter-spacing:.14em;font-weight:800;margin-bottom:6px; }
+    .panel { background:var(--panel);border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow);padding:17px;min-width:0; }
+    .panel h3 { margin:0 0 12px;font-size:14px; }
+    .panel-head { display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px; }
+    .panel-head h3 { margin:0; }
+    .panel-sub { color:var(--muted);font-size:11px;margin-top:4px; }
+    .grid { display:grid;gap:15px; }
+    .kpis { grid-template-columns:repeat(7,minmax(0,1fr));margin-bottom:15px; }
+    .kpi { padding:16px 17px;position:relative;overflow:hidden; }
+    .kpi:after { content:"";position:absolute;right:-20px;top:-24px;width:75px;height:75px;border-radius:50%;background:#e8f4f2; }
+    .kpi-label { color:var(--muted);font-size:11px;position:relative;z-index:1; }
+    .kpi-value { font-size:25px;font-weight:750;letter-spacing:-.04em;margin-top:8px;position:relative;z-index:1; }
+    .kpi-foot { color:#80909a;font-size:10px;margin-top:3px;position:relative;z-index:1; }
+    .two-col { grid-template-columns:1.2fr .8fr; }
+    .equal-col { grid-template-columns:1fr 1fr; }
+    .three-col { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .chart { width:100%;height:280px; }
+    .chart.short { height:220px; }
+    #main-map { height:430px;border-radius:9px;z-index:1; }
+    .map-wrap { position:relative; }
+    .map-note { position:absolute;z-index:400;left:12px;bottom:12px;background:rgba(255,255,255,.94);border:1px solid var(--line);padding:8px 10px;border-radius:7px;font-size:10px;color:var(--muted);box-shadow:var(--shadow); }
+    .control-row { display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 14px; }
+    .control-row select { min-width:185px; }
+    .control-row label { color:var(--muted);font-size:11px; }
+    .note { color:#667b86;background:#f4f8f8;border-left:3px solid #7bb9b4;padding:10px 12px;border-radius:0 7px 7px 0;font-size:11px;margin:10px 0; }
+    .warning { color:#7a5527;background:#fff8eb;border-left:3px solid #e1aa5f; }
+    .error { color:#863c3c;background:#fff0f0;border-left:3px solid #ce7777; }
+    .table-wrap { overflow:auto;border:1px solid var(--line);border-radius:8px; }
+    table { width:100%;border-collapse:collapse;font-size:11px; }
+    th { text-align:left;color:#70838d;background:#f6f9fa;font-size:10px;letter-spacing:.04em;text-transform:uppercase;font-weight:700;white-space:nowrap; }
+    th,td { padding:9px 10px;border-bottom:1px solid #edf1f3; }
+    tr:last-child td { border-bottom:0; }
+    td { color:#344c5b; }
+    .number { font-variant-numeric:tabular-nums; }
+    .badge { display:inline-block;padding:3px 7px;border-radius:99px;font-size:10px;background:#edf3f5;color:#526976;white-space:nowrap; }
+    .badge.good { background:#e7f5ee;color:#27744c; }
+    .badge.warn { background:#fff2df;color:#9b652a; }
+    .badge.bad { background:#fbeaea;color:#9d4141; }
+    .empty { text-align:center;color:var(--muted);padding:34px 12px; }
+    .loading { color:var(--muted);padding:22px; }
+    .legend { display:flex;gap:13px;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:10px; }
+    .dot { display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px; }
+    .split { display:flex;align-items:center;justify-content:space-between;gap:12px; }
+    .right { text-align:right; }
+    .small { color:var(--muted);font-size:10px; }
+    .standard-callout { background:#f0f7f7;border:1px solid #deeceb;border-radius:9px;padding:12px 14px;color:#47636d;font-size:11px;margin-bottom:14px; }
+    .footer { color:#87959d;font-size:10px;margin:22px 0 0;text-align:center; }
+    .leaflet-popup-content { min-width:230px;max-width:330px;font-size:11px; }
+    .popup-title { font-weight:750;color:#183e4a;font-size:13px; }
+    .popup-meta { color:#71818a;margin:4px 0 8px; }
+    .popup-list { margin:0;padding-left:15px;max-height:145px;overflow:auto; }
+    @media (max-width:1250px) { .kpis{grid-template-columns:repeat(4,minmax(0,1fr));} }
+    @media (max-width:1080px) { .kpis{grid-template-columns:repeat(3,minmax(0,1fr));}.two-col{grid-template-columns:1fr 1fr;} }
+    @media (max-width:760px) { .shell{grid-template-columns:1fr;}.sidebar{padding:12px;gap:10px;}.brand{padding:3px 7px 10px;}.sidebar nav{display:flex;overflow:auto;}.nav-label,.side-note{display:none;}nav button{white-space:nowrap;padding:8px 10px;font-size:11px;}.topbar{position:static;padding:12px 15px;align-items:flex-start;flex-direction:column;}.content{padding:18px 13px 30px;}.kpis{grid-template-columns:repeat(2,minmax(0,1fr));}.two-col,.equal-col,.three-col{grid-template-columns:1fr;}.page-head{flex-direction:column;}#main-map{height:350px;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark">◉</div><div><h1>WATER OBSERVATORY</h1><span>Bengaluru district monitoring</span></div></div>
+      <div>
+        <div class="nav-label">Analysis</div>
+        <nav id="navigation">
+          <button class="active" data-page="overview"><span class="nav-icon">⌂</span>Overview</button>
+          <button data-page="groundwater"><span class="nav-icon">◒</span>Groundwater</button>
+          <button data-page="surface_water"><span class="nav-icon">◍</span>Surface water</button>
+          <button data-page="chemical"><span class="nav-icon">⚗</span>Chemical</button>
+          <button data-page="physical"><span class="nav-icon">◈</span>Physical</button>
+          <button data-page="biological"><span class="nav-icon">⊙</span>Biological</button>
+          <button data-page="heatmaps"><span class="nav-icon">⌖</span>Geographical heatmaps</button>
+          <button data-page="comparison"><span class="nav-icon">⇄</span>Comparisons</button>
+          <button data-page="trends"><span class="nav-icon">⌁</span>Historical trends</button>
+          <button data-page="assessment"><span class="nav-icon">✓</span>Standards assessment</button>
+          <button data-page="data_quality"><span class="nav-icon">▤</span>Data quality</button>
+        </nav>
+      </div>
+      <div class="side-note"><strong>Observed data only</strong>Measurements stay linked to their source file and sampling row. Maps show station observations without spatial interpolation.</div>
+    </aside>
+    <main class="main">
+      <header class="topbar">
+        <div class="crumb">Water quality <span aria-hidden="true">/</span> <strong id="breadcrumb">Overview</strong></div>
+        <div class="global-filters">
+          <select id="global-source" aria-label="Filter water source"><option value="">All water sources</option><option value="groundwater">Groundwater</option><option value="surface_water">Surface water</option></select>
+          <select id="global-district" aria-label="Filter district"><option value="">All districts</option></select>
+          <input id="global-station" type="search" placeholder="Station" aria-label="Filter station">
+          <input id="global-location" type="search" placeholder="Location" aria-label="Filter location">
+          <input id="global-start" type="date" aria-label="Start date">
+          <input id="global-end" type="date" aria-label="End date">
+        </div>
+        <span class="scope-pill">BANGALORE URBAN + RURAL</span>
+      </header>
+      <section class="content" id="content"><div class="loading">Loading source datasets…</div></section>
+    </main>
+  </div>
+  <script>
+    const state = { page: 'overview', overview: null, map: null, mapLayer: null, local: {}, profiles: [], parameterCache: {} };
+    const labels = {overview:'Overview',groundwater:'Groundwater analysis',surface_water:'Surface water analysis',chemical:'Chemical analysis',physical:'Physical analysis',biological:'Biological analysis',heatmaps:'Geographical heatmaps',comparison:'Comparative analysis',trends:'Historical trends',assessment:'Standards assessment',data_quality:'Data quality'};
+    const esc = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+    const fmt = (value, digits=2) => value === null || value === undefined || !Number.isFinite(Number(value)) ? '—' : Number(value).toLocaleString(undefined,{maximumFractionDigits:digits});
+    const pct = value => value === null || value === undefined ? '—' : `${fmt(value,1)}%`;
+    const qstr = object => new URLSearchParams(Object.entries(object).filter(([,v]) => v !== '' && v !== null && v !== undefined)).toString();
+    const globalQuery = () => ({water_source:document.getElementById('global-source').value,district:document.getElementById('global-district').value,station:document.getElementById('global-station').value,location:document.getElementById('global-location').value,start_date:document.getElementById('global-start').value,end_date:document.getElementById('global-end').value});
+    async function api(path, params={}) { const query=qstr(params); const response=await fetch(path+(query?'?'+query:'')); const body=await response.json(); if(!response.ok) throw new Error(body.error||`Request failed (${response.status})`); return body; }
+    function panel(title, subtitle='', body='', extra='') { return `<section class="panel ${extra}"><div class="panel-head"><div><h3>${title}</h3>${subtitle?`<div class="panel-sub">${subtitle}</div>`:''}</div></div>${body}</section>`; }
+    function pageHead(eyebrow,title,description) { return `<div class="page-head"><div><div class="eyebrow">${eyebrow}</div><h2>${title}</h2><p>${description}</p></div></div>`; }
+    function kpi(label,value,foot='') { return `<div class="panel kpi"><div class="kpi-label">${label}</div><div class="kpi-value">${value}</div><div class="kpi-foot">${foot}</div></div>`; }
+    function table(headers, rows, empty='No matching records.') { if(!rows.length)return `<div class="empty">${empty}</div>`; return `<div class="table-wrap"><table><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`; }
+    function row(cells) { return `<tr>${cells.map(c=>`<td>${c}</td>`).join('')}</tr>`; }
+    function destroyMap() { if(state.map){state.map.remove();state.map=null;state.mapLayer=null;} }
+    function navTo(page) { state.page=page; state.local={}; document.querySelectorAll('#navigation button').forEach(b=>b.classList.toggle('active',b.dataset.page===page)); document.getElementById('breadcrumb').textContent=labels[page]; render(); }
+    document.getElementById('navigation').addEventListener('click',e=>{const button=e.target.closest('button[data-page]');if(button)navTo(button.dataset.page);});
+    ['global-source','global-district','global-station','global-location','global-start','global-end'].forEach(id=>document.getElementById(id).addEventListener('change',()=>render()));
+
+    async function init() {
+      try {
+        const [overview,standards]=await Promise.all([api('/api/dashboard/overview/'),api('/api/standards/')]);
+        state.overview=overview;state.profiles=standards.profiles;
+        const district=document.getElementById('global-district');
+        overview.districts.forEach(value=>district.insertAdjacentHTML('beforeend',`<option>${esc(value)}</option>`));
+        render();
+      } catch(error) { document.getElementById('content').innerHTML=`<div class="panel note error">Could not load dashboard: ${esc(error.message)}. Confirm the API server is running and the CSV files are present.</div>`; }
+    }
+    async function render() {
+      destroyMap();
+      const content=document.getElementById('content');content.innerHTML='<div class="loading">Loading…</div>';
+      try {
+        const query=globalQuery();
+        if(state.page==='overview') content.innerHTML=await renderOverview(query);
+        else if(['groundwater','surface_water','chemical','physical'].includes(state.page)) content.innerHTML=await renderAnalysis(query,state.page);
+        else if(state.page==='biological') content.innerHTML=await renderBiological(query);
+        else if(state.page==='heatmaps') content.innerHTML=renderHeatmaps(query);
+        else if(state.page==='comparison') content.innerHTML=renderComparison(query);
+        else if(state.page==='trends') content.innerHTML=renderTrends(query);
+        else if(state.page==='assessment') content.innerHTML=renderAssessment(query);
+        else content.innerHTML=await renderDataQuality(query);
+        wirePage();
+      } catch(error) { content.innerHTML=`<div class="panel note error">${esc(error.message)}</div>`; }
+    }
+    async function renderOverview(query) {
+      const data=await api('/api/dashboard/overview/',query);
+      const quality=await api('/api/data-quality/');
+      const params=await api('/api/parameters/');
+      const frequent=quality.available_parameters.filter(x=>x.recorded_count>0).sort((a,b)=>b.recorded_count-a.recorded_count).slice(0,8);
+      const latest=data.latest_observations.slice(0,12).map(x=>row([esc(x.sample_date||'Date unavailable'),esc(x.station),esc(x.district),esc(x.parameter),`${esc(x.value??x.value_text??'—')} ${esc(x.unit)}`,`<span class="badge">${esc(x.water_source.replace('_',' '))}</span>`,esc(x.dataset_source)]));
+      return `${pageHead('Monitoring summary','Water quality, in context','Explore observed groundwater and surface-water measurements across Bangalore Urban and Bangalore Rural. Samples remain separate by source row and date.')}
+      <div class="grid kpis">${kpi('Sampling records',fmt(data.total_samples,0),'Source rows in current filters')}${kpi('Monitoring stations',fmt(data.monitoring_stations,0),'Source-specific sites')}${kpi('Groundwater records',fmt(data.groundwater_samples,0),'CGWB datasets')}${kpi('Surface-water records',fmt(data.surface_water_samples,0),'CPCB datasets')}${kpi('Parameters',fmt(data.parameters,0),'Distinct parameter and unit pairs')}${kpi('Districts',fmt(data.locations,0),'Geographic coverage')}${kpi('Datasets in scope',`${fmt(data.dataset_coverage,0)} / ${fmt(data.available_datasets,0)}`,'Source files with matching records')}</div>
+      <div class="panel" style="margin-bottom:15px"><div class="split"><div><h3>Parameter-limit findings</h3><div class="panel-sub">Counted only after a reference profile is selected; not an overall water-safety rating.</div></div><div class="control-row" style="margin:0"><select id="overview-profile"><option value="">Choose a standard/use profile</option>${state.profiles.map(p=>`<option value="${esc(p.id)}">${esc(p.name)}</option>`).join('')}</select><strong id="overview-findings">—</strong></div></div></div>
+      <div class="grid two-col" style="margin-bottom:15px">${panel('Water source coverage','Sampling records by source',`<div id="source-chart" class="chart short"></div>`)}${panel('Parameter availability','Measurement columns with values',`<div id="coverage-chart" class="chart short"></div>`)}</div>
+      <div class="grid two-col" style="margin-bottom:15px">${panel('Monitoring stations','Site locations with a recent source-record popup',`<div class="map-wrap"><div id="main-map"></div><div class="map-note">Observed stations · no interpolated surface</div></div><div class="legend" style="margin-top:10px"><span><i class="dot" style="background:#327fba"></i>Groundwater</span><span><i class="dot" style="background:#087f82"></i>Surface water</span></div>`)}${panel('Data coverage signals','Most frequently populated parameters',table(['Parameter','Unit','Recorded values','Missing'],frequent.map(x=>row([esc(x.parameter),esc(x.unit||'—'),fmt(x.recorded_count,0),pct(x.missing_percent)]))))}</div>
+      ${panel('Latest available observations','Latest measured values, shown as separate source observations',table(['Sample date','Station','District','Parameter','Measured value','Source','Dataset'],latest))}
+      <div class="footer">Coverage summary is descriptive. Missing parameters do not imply acceptable water quality.</div>`;
+    }
+    async function renderAnalysis(query,page) {
+      const source=page==='groundwater'?'groundwater':page==='surface_water'?'surface_water':query.water_source;
+      const category=page==='chemical'||page==='physical'?page:'';
+      const title=labels[page];
+      const params=await api('/api/parameters/',{water_source:source,category});
+      const selectId='analysis-parameter';
+      const parameterOptions=params.parameters.map(p=>`<option value="${esc(p.parameter_key)}">${esc(p.parameter)}${p.unit?` (${esc(p.unit)})`:''}</option>`).join('');
+      const parameter=params.parameters.some(p=>p.parameter_key===state.local.parameter)?state.local.parameter:(params.parameters[0]?.parameter_key||'');
+      const selected=params.parameters.find(p=>p.parameter_key===parameter);
+      const analysisQuery={...query,water_source:source,category,parameter_key:parameter};
+      const stats=parameter?await api('/api/statistics/',analysisQuery):{statistics:[]};
+      const selectedStats=stats.statistics.filter(x=>x.parameter_key===parameter);
+      const statRows=selectedStats.map(x=>row([`<span class="badge">${esc(x.water_source.replace('_',' '))}</span>`,esc(x.unit||'—'),fmt(x.count,0),fmt(x.mean),fmt(x.median),fmt(x.min),fmt(x.max),fmt(x.p25),fmt(x.p75),pct(x.missing_percent)]));
+      const observations=parameter?await api('/api/trends/',{...analysisQuery,limit:10000}):{observations:[]};
+      return `${pageHead(category?category.toUpperCase():'WATER SOURCE',title,'Filter by parameter, district, location, and date. Summary statistics use numeric observed values only; measurements with different units remain separate.')}
+      <div class="control-row"><label for="analysis-parameter">Parameter</label><select id="analysis-parameter">${parameterOptions}</select><span class="badge">${esc(selected?.unit||'Unitless')}</span><span class="small">${fmt(observations.count||0,0)} observed numeric records</span></div>
+      <div class="grid equal-col" style="margin-bottom:15px">${panel('Descriptive statistics','Actual measurements only',table(['Source','Unit','Count','Mean','Median','Min','Max','P25','P75','Missing'],statRows,'No numeric values are available for this selection.'))}${panel('Observed value distribution','Values are not pooled across units',`<div id="analysis-histogram" class="chart"></div>`)}</div>
+      ${panel('Historical observations','No smoothing or forecasting; every point is an observed value',`<div id="analysis-trend" class="chart"></div>`)}
+      <div class="note">${page==='surface_water'?'Surface-water observations are assessed against CPCB use classes only when an explicit class is selected.':'Groundwater screening uses drinking-water criteria only as parameter-level context.'} Values and dataset provenance are retained in station-level records.</div>`;
+    }
+    async function renderBiological(query) {
+      const data=await api('/api/biological/',query);
+      const rows=data.summaries.map(x=>row([esc(x.parameter),esc(x.unit||'—'),fmt(x.observation_count,0),fmt(x.measured_count,0),fmt(x.missing_count,0),fmt(x.positive_count,0),pct(x.positive_percent_of_measured),fmt(x.mean)]));
+      return `${pageHead('BIOLOGICAL INDICATORS','Biological quality','Review measured biological indicators by parameter and unit. Positive counts are descriptive detections, not a safety judgment.')}
+      <div class="grid equal-col" style="margin-bottom:15px">${panel('Measured indicators','Rows remain grouped by parameter and unit',table(['Parameter','Unit','Rows','Measured','Missing','Positive values','Positive %','Mean'],rows,'No biological measurements are available under the current filters.'))}${panel('Positive measurements','Counts by indicator',`<div id="bio-chart" class="chart"></div>`)}</div>
+      <div class="note">A missing measurement is not treated as a non-detection. Biological results use each parameter’s source unit and are not combined.</div>`;
+    }
+    function renderHeatmaps(query) {
+      const source=state.local.source||query.water_source||'groundwater';
+      return `${pageHead('GEOGRAPHICAL VISUALIZATION','Parameter map','Select one source and one parameter. The map colours observed station points by value; it does not estimate water quality between stations.')}
+      <div class="control-row"><label>Water source</label><select id="heat-source"><option value="groundwater" ${source==='groundwater'?'selected':''}>Groundwater</option><option value="surface_water" ${source==='surface_water'?'selected':''}>Surface water</option></select><label>Parameter</label><select id="heat-parameter"><option>Loading…</option></select></div>
+      <div class="grid two-col"><div class="panel"><div class="panel-head"><div><h3>Observed station values</h3><div class="panel-sub" id="map-description">Circle colour and size follow the selected parameter value.</div></div></div><div class="map-wrap"><div id="main-map"></div><div class="map-note">Observed point values only · no spatial interpolation</div></div><div class="legend" id="heat-legend" style="margin-top:10px"></div></div>${panel('Mapped observations','Latest observed value per site within the selected date range',`<div id="heat-table"></div>`)}</div>`;
+    }
+    function renderComparison(query) {
+      return `${pageHead('COMPARATIVE ANALYSIS','Compare water quality','Compare a single parameter across sources, districts, stations, or dates. Units remain separate, and sample counts are shown with each group.')}
+      <div class="control-row"><label>Parameter</label><select id="compare-parameter"><option>Loading…</option></select><label>Group by</label><select id="compare-by"><option value="water_source">Water source</option><option value="district">District</option><option value="station">Station</option><option value="category">Category</option><option value="agency">Agency</option><option value="date">Sample date</option></select></div>
+      <div class="grid equal-col">${panel('Group summary','Statistics are calculated within each unit',`<div id="comparison-table"></div>`)}${panel('Distribution by group','Unit-specific distributions',`<div id="comparison-chart" class="chart"></div>`)}</div>
+      <div class="note">A source comparison may have different sample counts, stations, dates, and protocols. Treat these summaries as descriptive.</div>`;
+    }
+    function renderTrends(query) {
+      return `${pageHead('HISTORICAL OBSERVATIONS','Track measurements over time','View actual dated observations for one parameter. Select a station to inspect a site-specific series; no smoothing or forecasting is applied.')}
+      <div class="control-row"><label>Parameter</label><select id="trend-parameter"><option>Loading…</option></select><label>Station</label><select id="trend-station"><option value="">All stations</option></select></div>
+      ${panel('Observed values over time','Points are source measurements, not generated values',`<div id="trend-chart" class="chart"></div>`)}
+      <div id="trend-summary" class="note"></div>`;
+    }
+    function renderAssessment(query) {
+      return `${pageHead('REFERENCE CRITERIA','Standards-based screening','Choose a water-source-specific reference profile. Results are parameter-level comparisons only and do not certify complete drinking-water safety.')}
+      <div class="standard-callout">BIS IS 10500 criteria are for drinking water. CPCB surface-water limits depend on designated use. Select the appropriate use class; no class is assumed by the dashboard.</div>
+      <div class="control-row"><label>Assessment profile</label><select id="assessment-profile"><option value="">Choose a reference profile</option>${state.profiles.map(p=>`<option value="${esc(p.id)}">${esc(p.name)}</option>`).join('')}</select></div>
+      <div id="assessment-results"><div class="empty">Select a reference profile to assess matching measurements.</div></div>
+      <div class="note warning">A measured value within selected parameter limits does not show that water is safe overall. The datasets do not include every parameter required for drinking-water assessment.</div>`;
+    }
+    async function renderDataQuality(query) {
+      const report=await api('/api/data-quality/');
+      const files=report.dataset_reports.map(x=>row([esc(x.dataset_source),`<span class="badge">${esc(x.water_source.replace('_',' '))}</span>`,esc(x.category),fmt(x.source_rows,0),fmt(x.included_rows,0),fmt(x.excluded_out_of_scope_rows,0),fmt(x.measurement_columns,0),fmt(x.missing_measurements,0),fmt(x.exact_duplicate_rows,0),fmt(x.duplicate_station_date_rows,0),fmt(x.missing_coordinates,0),fmt(x.invalid_coordinates,0),fmt(x.invalid_dates,0),fmt(x.invalid_numeric_values,0)]));
+      const params=report.available_parameters.sort((a,b)=>b.missing_percent-a.missing_percent).slice(0,18).map(x=>row([esc(x.parameter),esc(x.unit||'—'),fmt(x.record_count,0),fmt(x.recorded_count,0),fmt(x.missing_count,0),pct(x.missing_percent),fmt(x.invalid_numeric_count,0)]));
+      return `${pageHead('DATA PROVENANCE','Data quality & coverage','Inspect the source files, included records, missing measurements, duplicates, coordinate validity, date parsing, and numeric-value issues.')}
+      <div class="grid kpis">${kpi('Source rows',fmt(report.total_source_records,0),'Across all source CSVs')}${kpi('Included rows',fmt(report.records_processed,0),'Bangalore Urban + Rural')}${kpi('Out of scope',fmt(report.records_excluded_by_district_scope,0),'Other districts retained in source files')}${kpi('Missing measurement cells',fmt(report.missing_measurement_cells,0),'Not filled or treated as zero')}${kpi('Exact duplicate rows',fmt(report.duplicate_rows_within_dataset,0),'Within each source dataset')}</div>
+      <div class="grid two-col" style="margin-bottom:15px">${panel('Dataset-wise processing','Source rows are counted before district filtering',table(['Dataset','Water source','Category','Source rows','Included','Out of scope','Measurement fields','Missing values','Exact duplicates','Repeated site/date','Missing coords','Invalid coords','Missing dates','Invalid dates','Invalid numeric'],files))}${panel('Most incomplete parameters','Missingness is calculated only where that parameter column exists',table(['Parameter','Unit','Records','Recorded','Missing','Missing %','Invalid numeric'],params))}</div>
+      <div class="note">${report.notes.map(esc).join('<br>')}</div>
+      <div class="small">Included ${fmt(report.measurement_observations,0)} parameter-level observation cells across ${fmt(report.available_parameters.length,0)} parameter/unit fields. Out-of-scope rows remain untouched in the source files.</div>`;
+    }
+    async function wirePage() {
+      if(state.page==='overview') { await drawOverview(); return; }
+      if(['groundwater','surface_water','chemical','physical'].includes(state.page)) { await wireAnalysis(); return; }
+      if(state.page==='biological') { await drawBiological(); return; }
+      if(state.page==='heatmaps') { await wireHeatmaps(); return; }
+      if(state.page==='comparison') { await wireComparison(); return; }
+      if(state.page==='trends') { await wireTrends(); return; }
+      if(state.page==='assessment') { document.getElementById('assessment-profile').addEventListener('change',drawAssessment); }
+    }
+    async function drawOverview() {
+      const query=globalQuery();
+      const data=await api('/api/dashboard/overview/',query);
+      const profileSelect=document.getElementById('overview-profile');
+      if(state.local.profile)profileSelect.value=state.local.profile;
+      profileSelect.addEventListener('change',async()=>{state.local.profile=profileSelect.value;const output=document.getElementById('overview-findings');if(!profileSelect.value){output.textContent='—';return;}output.textContent='Loading…';try{const result=await api('/api/assessment/',{...globalQuery(),profile:profileSelect.value});const statuses=result.status_counts;const findings=Object.entries(statuses).filter(([status])=>status.includes('above')||status.includes('below')).reduce((sum,[,count])=>sum+count,0);output.textContent=`${findings.toLocaleString()} outside acceptable limits`;}catch(error){output.textContent=error.message;}});
+      if(profileSelect.value)profileSelect.dispatchEvent(new Event('change'));
+      Plotly.newPlot('source-chart',[{type:'bar',x:['Groundwater','Surface water'],y:[data.groundwater_samples,data.surface_water_samples],marker:{color:['#327fba','#087f82']},hovertemplate:'%{x}: %{y:,} records<extra></extra>'}],{margin:{l:42,r:10,t:8,b:42},paper_bgcolor:'transparent',plot_bgcolor:'transparent',yaxis:{gridcolor:'#edf1f3',title:'Source records'},xaxis:{fixedrange:true}},{displayModeBar:false,responsive:true});
+      const params=await api('/api/parameters/');
+      const q=await api('/api/data-quality/');
+      const frequent=q.available_parameters.filter(x=>x.recorded_count>0).sort((a,b)=>b.recorded_count-a.recorded_count).slice(0,10);
+      Plotly.newPlot('coverage-chart',[{type:'bar',orientation:'h',y:frequent.map(x=>`${x.parameter}${x.unit?' · '+x.unit:''}`).reverse(),x:frequent.map(x=>x.recorded_count).reverse(),marker:{color:'#56a9a7'},hovertemplate:'%{y}<br>%{x:,} recorded values<extra></extra>'}],{margin:{l:155,r:12,t:8,b:30},paper_bgcolor:'transparent',plot_bgcolor:'transparent',xaxis:{gridcolor:'#edf1f3',title:'Recorded values'},yaxis:{automargin:true}},{displayModeBar:false,responsive:true});
+      const stations=await api('/api/stations/',query); setupMap('main-map'); addStationMarkers(stations.stations);
+    }
+    async function wireAnalysis() {
+      const page=state.page,query=globalQuery();
+      const source=page==='groundwater'?'groundwater':page==='surface_water'?'surface_water':query.water_source;
+      const category=page==='chemical'||page==='physical'?page:'';
+      const params=await api('/api/parameters/',{water_source:source,category});
+      const select=document.getElementById('analysis-parameter');
+      if(!params.parameters.length){select.innerHTML='<option value="">No matching parameters</option>';return;}
+      select.value=params.parameters.some(p=>p.parameter_key===state.local.parameter)?state.local.parameter:params.parameters[0].parameter_key;
+      select.addEventListener('change',()=>{state.local.parameter=select.value;render();});
+      const parameter=select.value;
+      const records=await api('/api/trends/',{...query,water_source:source,category,parameter_key:parameter,limit:10000});
+      const numeric=records.observations.filter(o=>o.value!==null);
+      Plotly.newPlot('analysis-histogram',[{type:'histogram',x:numeric.map(o=>o.value),marker:{color:'#278d8d'},nbinsx:24,hovertemplate:'Value: %{x}<br>Records: %{y}<extra></extra>'}],{margin:{l:45,r:10,t:8,b:45},paper_bgcolor:'transparent',plot_bgcolor:'transparent',xaxis:{title:numeric[0]?.unit||'Value',gridcolor:'#edf1f3'},yaxis:{title:'Observations',gridcolor:'#edf1f3'}},{displayModeBar:false,responsive:true});
+      Plotly.newPlot('analysis-trend',[{type:'scatter',mode:'markers',x:numeric.map(o=>o.sample_date),y:numeric.map(o=>o.value),text:numeric.map(o=>`${o.station} · ${o.district}<br>${o.dataset_source}`),marker:{color:numeric.map(o=>o.water_source==='groundwater'?'#327fba':'#087f82'),size:7,opacity:.72},hovertemplate:'%{x}<br>%{y}<br>%{text}<extra></extra>'}],{margin:{l:52,r:15,t:10,b:55},paper_bgcolor:'transparent',plot_bgcolor:'transparent',xaxis:{title:'Sample date',gridcolor:'#edf1f3'},yaxis:{title:numeric[0]?.unit||'Value',gridcolor:'#edf1f3'}},{displayModeBar:false,responsive:true});
+    }
+    async function drawBiological() {
+      const data=await api('/api/biological/',globalQuery());const values=data.summaries.filter(x=>x.measured_count>0).slice(0,12);
+      Plotly.newPlot('bio-chart',[{type:'bar',x:values.map(x=>x.parameter),y:values.map(x=>x.positive_percent_of_measured),marker:{color:'#8b75b7'},hovertemplate:'%{x}<br>Positive among measured: %{y:.1f}%<extra></extra>'}],{margin:{l:45,r:10,t:8,b:75},paper_bgcolor:'transparent',plot_bgcolor:'transparent',xaxis:{tickangle:-25},yaxis:{title:'Positive % of measured',range:[0,100],gridcolor:'#edf1f3'}},{displayModeBar:false,responsive:true});
+    }
+    async function wireHeatmaps() {
+      const source=document.getElementById('heat-source');const param=document.getElementById('heat-parameter');
+      const load=async()=>{const result=await api('/api/parameters/',{water_source:source.value});param.innerHTML=result.parameters.map(x=>`<option value="${esc(x.parameter_key)}">${esc(x.parameter)}${x.unit?` (${esc(x.unit)})`:''}</option>`).join('');if(state.local.parameter&&[...param.options].some(o=>o.value===state.local.parameter))param.value=state.local.parameter;await drawHeatmap();};
+      source.addEventListener('change',()=>{state.local.source=source.value;state.local.parameter='';load();});param.addEventListener('change',()=>{state.local.parameter=param.value;drawHeatmap();});
+      await load();
+    }
+    async function drawHeatmap() {
+      const source=document.getElementById('heat-source').value;const parameter=document.getElementById('heat-parameter').value;if(!parameter)return;
+      setupMap('main-map');
+      if(!window.L||!state.mapLayer)return;
+      const data=await api('/api/heatmap/',{...globalQuery(),water_source:source,parameter_key:parameter});
+      const min=data.value_range.min,max=data.value_range.max;let points=[];
+      for(const feature of data.features){const p=feature.properties,[lon,lat]=feature.geometry.coordinates;const ratio=max===min?0.5:(p.value-min)/(max-min);const color=valueColor(ratio);const marker=L.circleMarker([lat,lon],{radius:6+ratio*8,color,fillColor:color,fillOpacity:.82,weight:1.5}).bindPopup(popupHtml(p));marker.addTo(state.mapLayer);points.push([lat,lon]);}
+      if(points.length)state.map.fitBounds(points,{padding:[22,22],maxZoom:11});else state.map.setView([12.97,77.59],8);
+      document.getElementById('heat-legend').innerHTML=`<span>${esc(parameter.replaceAll('_',' '))}: ${fmt(min)} – ${fmt(max)} ${esc(data.features[0]?.properties.unit||'')}</span><span><i class="dot" style="background:#377eb8"></i>Lower</span><span><i class="dot" style="background:#f2b34f"></i>Middle</span><span><i class="dot" style="background:#c54643"></i>Higher</span>`;
+      const rows=data.features.slice(0,120).sort((a,b)=>b.properties.value-a.properties.value).map(f=>{const p=f.properties;return row([esc(p.station),esc(p.district),esc(p.sample_date||'—'),`${fmt(p.value)} ${esc(p.unit)}`,esc(p.dataset_source)]);});
+      document.getElementById('heat-table').innerHTML=table(['Station','District','Sample date','Observed value','Dataset'],rows);
+      document.getElementById('map-description').textContent=`${data.features.length} sites with a measured ${parameter.replaceAll('_',' ')} value. ${data.visualization_note}`;
+    }
+    async function wireComparison() {
+      const params=await api('/api/parameters/');const select=document.getElementById('compare-parameter');select.innerHTML=params.parameters.map(p=>`<option value="${esc(p.parameter_key)}">${esc(p.parameter)}${p.unit?` (${esc(p.unit)})`:''}</option>`).join('');
+      if(state.local.parameter)select.value=state.local.parameter;
+      select.addEventListener('change',()=>{state.local.parameter=select.value;drawComparison();});document.getElementById('compare-by').addEventListener('change',drawComparison);await drawComparison();
+    }
+    async function drawComparison() {
+      const parameter=document.getElementById('compare-parameter').value;const compareBy=document.getElementById('compare-by').value;if(!parameter)return;
+      const data=await api('/api/comparison/',{...globalQuery(),parameter_key:parameter,compare_by:compareBy});
+      document.getElementById('comparison-table').innerHTML=table(['Group','Unit','Samples','Count','Mean','Median','Min','Max'],data.comparisons.map(x=>row([esc(x.group),esc(x.unit||'—'),fmt(x.sample_count,0),fmt(x.count,0),fmt(x.mean),fmt(x.median),fmt(x.min),fmt(x.max)])));
+      const groups=data.comparisons.filter(x=>x.count>0);
+      Plotly.newPlot('comparison-chart',groups.map((x,i)=>({type:'box',name:x.group,y:x.distribution_values,boxpoints:'outliers',marker:{color:['#327fba','#087f82','#de9457','#796bb3'][i%4]},hovertemplate:`${esc(x.group)}<br>%{y}<extra></extra>`})),{margin:{l:50,r:10,t:8,b:70},paper_bgcolor:'transparent',plot_bgcolor:'transparent',xaxis:{tickangle:-22},yaxis:{title:`Observed value${groups[0]?.unit?' ('+groups[0].unit+')':''}`,gridcolor:'#edf1f3'}},{displayModeBar:false,responsive:true});
+    }
+    async function wireTrends() {
+      const params=await api('/api/parameters/');const select=document.getElementById('trend-parameter');select.innerHTML=params.parameters.map(p=>`<option value="${esc(p.parameter_key)}">${esc(p.parameter)}${p.unit?` (${esc(p.unit)})`:''}</option>`).join('');if(state.local.parameter&&[...select.options].some(o=>o.value===state.local.parameter))select.value=state.local.parameter;
+      const stations=await api('/api/stations/',globalQuery());const stationSelect=document.getElementById('trend-station');stationSelect.insertAdjacentHTML('beforeend',stations.stations.map(s=>`<option value="${esc(s.station_id)}">${esc(s.station)} · ${esc(s.district)}</option>`).join(''));if(state.local.station)stationSelect.value=state.local.station;
+      select.addEventListener('change',()=>{state.local.parameter=select.value;drawTrends();});stationSelect.addEventListener('change',()=>{state.local.station=stationSelect.value;drawTrends();});await drawTrends();
+    }
+    async function drawTrends() {
+      const parameter=document.getElementById('trend-parameter').value;const station_id=document.getElementById('trend-station').value;if(!parameter)return;
+      const data=await api('/api/trends/',{...globalQuery(),parameter_key:parameter,station_id,limit:10000});const points=data.observations.filter(x=>x.sample_date&&x.value!==null);
+      const traces=[];for(const source of ['groundwater','surface_water']){const subset=points.filter(x=>x.water_source===source);if(subset.length)traces.push({type:'scatter',mode:'markers',name:source.replace('_',' '),x:subset.map(x=>x.sample_date),y:subset.map(x=>x.value),text:subset.map(x=>`${x.station} · ${x.dataset_source}`),marker:{color:source==='groundwater'?'#327fba':'#087f82',size:7,opacity:.75},hovertemplate:'%{x}<br>%{y}<br>%{text}<extra></extra>'});}
+      Plotly.newPlot('trend-chart',traces,{margin:{l:55,r:15,t:10,b:55},paper_bgcolor:'transparent',plot_bgcolor:'transparent',xaxis:{title:'Observed sample date',gridcolor:'#edf1f3'},yaxis:{title:points[0]?.unit||'Value',gridcolor:'#edf1f3'},legend:{orientation:'h',y:1.12}},{displayModeBar:false,responsive:true});
+      document.getElementById('trend-summary').textContent=points.length?`${points.length.toLocaleString()} actual observations shown${data.truncated?' (result limited to 10,000 points)':''}. Records may have different dates, stations, and sampling protocols.`:'No dated numeric observations match these filters.';
+    }
+    async function drawAssessment() {
+      const profile=document.getElementById('assessment-profile').value;const container=document.getElementById('assessment-results');if(!profile){container.innerHTML='<div class="empty">Select a reference profile to assess matching measurements.</div>';return;}
+      const data=await api('/api/assessment/',{...globalQuery(),profile});
+      const badges=Object.entries(data.status_counts).map(([status,count])=>`<span class="badge ${status.includes('permissible')?'bad':status.includes('acceptable')?'warn':''}">${esc(status)} · ${fmt(count,0)}</span>`).join(' ');
+      const rows=data.results.slice(0,250).map(x=>row([esc(x.sample_date||'—'),esc(x.station),esc(x.district),esc(x.parameter),`${fmt(x.value)} ${esc(x.unit)}`,esc(x.status),x.reason?esc(x.reason):'—',esc(x.dataset_source)]));
+      container.innerHTML=`<div class="panel" style="margin-bottom:14px"><div class="panel-head"><div><h3>${esc(data.profile.name)}</h3><div class="panel-sub">${esc(data.profile.description)}</div></div><a class="small" href="${esc(data.profile.reference_url)}" target="_blank" rel="noreferrer">Reference ↗</a></div><div class="legend">${badges||'<span class="small">No criterion-matched records for this selection.</span>'}</div><div class="note">${esc(data.overall_assessment_note)}</div></div>
+      <div class="panel" style="margin-bottom:14px"><h3>Criterion coverage</h3>${table(['Parameter','Unit','Matched records','Coverage','Method note'],data.criteria_coverage.map(x=>row([esc(x.parameter),esc(x.unit||'—'),fmt(x.records_found,0),`<span class="badge ${x.records_found?'good':''}">${esc(x.status)}</span>`,esc(x.method_note||'—')])) )}</div>
+      ${panel('Parameter-level results','Individual observation rows; no overall sample safety rating',table(['Date','Station','District','Parameter','Value','Assessment','Note','Source dataset'],rows,'No parameter-level results match the current filters.'))}${data.results.length>250?`<div class="small">Showing first 250 of ${fmt(data.results.length,0)} assessment results.</div>`:''}`;
+    }
+    function setupMap(id) {
+      if(!window.L){document.getElementById(id).innerHTML='<div class="empty">Map library could not load. Check your network connection.</div>';return;}
+      state.map=L.map(id,{scrollWheelZoom:false}).setView([12.97,77.59],8);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'&copy; OpenStreetMap contributors'}).addTo(state.map);
+      state.mapLayer=L.layerGroup().addTo(state.map);
+      setTimeout(()=>state.map?.invalidateSize(),60);
+    }
+    function addStationMarkers(stations) {
+      if(!window.L||!state.mapLayer)return;
+      const points=[];for(const s of stations){if(s.latitude===null||s.longitude===null)continue;const color=s.water_source==='groundwater'?'#327fba':'#087f82';const marker=L.circleMarker([s.latitude,s.longitude],{radius:6,color,fillColor:color,fillOpacity:.78,weight:1.5}).addTo(state.mapLayer);marker.bindPopup(`<div class="popup-title">${esc(s.station)}</div><div class="popup-meta">${esc(s.district)} · ${esc(s.water_source.replace('_',' '))}<br>${esc(s.agency)} · ${fmt(s.sample_count,0)} source records · Latest ${esc(s.latest_sample_date||'—')}</div><button onclick="loadStationPopup('${encodeURIComponent(s.station_id)}',this)">Load source observations</button><div class="station-extra"></div>`);points.push([s.latitude,s.longitude]);}if(points.length)state.map.fitBounds(points,{padding:[24,24],maxZoom:10});else state.map.setView([12.97,77.59],8);
+    }
+    async function loadStationPopup(encoded,button) { const holder=button.parentElement.querySelector('.station-extra');holder.innerHTML='<div class="small">Loading source records…</div>';try{const result=await api(`/api/observations/${encoded}/`);const grouped=new Map();for(const x of result.observations){const key=x.sample_id;if(!grouped.has(key))grouped.set(key,{date:x.sample_date,source:x.dataset_source,values:[]});if(!x.is_missing)grouped.get(key).values.push(`${x.parameter}: ${x.value??x.value_text??'—'} ${x.unit||''}`);}const entries=[...grouped.values()].sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,5);holder.innerHTML=entries.map(x=>`<div style="border-top:1px solid #e7edef;padding:5px 0"><b>${esc(x.date||'Date unavailable')}</b><br><span class="small">${esc(x.source)} · separate source row</span><ul class="popup-list">${x.values.slice(0,12).map(v=>`<li>${esc(v)}</li>`).join('')||'<li>No measured values</li>'}</ul></div>`).join('')||'<div class="small">No observations found.</div>';}catch(error){holder.textContent=error.message;}}
+    function popupHtml(p) {return `<div class="popup-title">${esc(p.station)}</div><div class="popup-meta">${esc(p.district)} · ${esc(p.water_source.replace('_',' '))}<br>${esc(p.sample_date||'Date unavailable')} · ${esc(p.dataset_source)}</div><b>${esc(p.parameter)}:</b> ${fmt(p.value)} ${esc(p.unit)}<br><div class="small">This is one observed source row.</div><ul class="popup-list">${p.measurement_details.map(x=>`<li>${esc(x.parameter)}: ${x.is_missing?'missing':esc(x.value??x.value_text)} ${esc(x.unit)}</li>`).join('')}</ul>`;}
+    function valueColor(t) {const colors=[[55,126,184],[87,179,171],[243,185,83],[197,70,66]];const scaled=Math.max(0,Math.min(0.999,t))*3;const i=Math.floor(scaled),f=scaled-i;const a=colors[i],b=colors[i+1];return `rgb(${Math.round(a[0]+(b[0]-a[0])*f)},${Math.round(a[1]+(b[1]-a[1])*f)},${Math.round(a[2]+(b[2]-a[2])*f)})`;}
+    init();
+  </script>
+</body>
+</html>

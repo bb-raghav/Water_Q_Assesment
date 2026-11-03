@@ -1,0 +1,94 @@
+{
+  "profiles": [
+    {
+      "id": "groundwater_bis_10500",
+      "name": "Groundwater · BIS IS 10500:2012 screening",
+      "water_source": "groundwater",
+      "standard_reference": "BIS IS 10500:2012, reviewed in 2023",
+      "reference_url": "https://standards.bis.gov.in/website/standard-details?encryptedId=eyJpdiI6IlhsVzR2UDd6SS9nZWU0VnpjY0NVV0E9PSIsInZhbHVlIjoiL1kwemJVeXZnVWExaElxeWtPeExqdz09IiwibWFjIjoiOGI2NDM3MmQzYjViM2NmZjdkODI3ZjczMGRkZTc5Y2RjNDA3ODA4NWM2MzZjYmNhYmMzNTZmYmU1YmVhNDU4MiIsInRhZyI6IiJ9",
+      "description": "Drinking-water parameter screening only. This is not an overall safety determination.",
+      "criteria": [
+        {"parameter_id": "ph", "parameter": "pH", "unit": "", "acceptable_min": 6.5, "acceptable_max": 8.5, "permissible_min": 6.5, "permissible_max": 8.5},
+        {"parameter_id": "total_dissolved_solids", "parameter": "Total Dissolved Solids", "unit": "mg/L", "acceptable_max": 500, "permissible_max": 2000},
+        {"parameter_id": "chloride", "parameter": "Chloride", "unit": "mg/L", "acceptable_max": 250, "permissible_max": 1000},
+        {"parameter_id": "total_hardness", "parameter": "Total Hardness", "unit": "mgCaCO3/L", "acceptable_max": 200, "permissible_max": 600},
+        {"parameter_id": "fluoride", "parameter": "Fluoride", "unit": "mg/L", "acceptable_max": 1.0, "permissible_max": 1.5},
+        {"parameter_id": "nitrate", "parameter": "Nitrate (as NO3)", "unit": "mg/L", "acceptable_max": 45, "permissible_max": 45},
+        {"parameter_id": "sulphate", "parameter": "Sulphate", "unit": "mg/L", "acceptable_max": 200, "permissible_max": 400},
+        {"parameter_id": "iron", "parameter": "Iron", "unit": "mg/L", "acceptable_max": 0.3, "permissible_max": 0.3},
+        {"parameter_id": "arsenic", "parameter": "Arsenic", "unit": "mg/L", "acceptable_max": 0.01, "permissible_max": 0.05},
+        {"parameter_id": "lead", "parameter": "Lead", "unit": "mg/L", "acceptable_max": 0.01, "permissible_max": 0.01}
+      ]
+    },
+    {
+      "id": "surface_cpcb_a",
+      "name": "Surface water · CPCB Class A",
+      "water_source": "surface_water",
+      "standard_reference": "CPCB Designated Best Use Water Quality Criteria, Class A",
+      "reference_url": "https://cpcb.nic.in/wqm/Designated_Best_Use_Water_Quality_Criteria.pdf",
+      "description": "Drinking-water source without conventional treatment, after disinfection.",
+      "criteria": [
+        {"parameter_id": "ph", "parameter": "pH", "unit": "", "acceptable_min": 6.5, "acceptable_max": 8.5},
+        {"parameter_id": "dissolved_oxygen", "parameter": "Dissolved Oxygen", "unit": "mg/L", "acceptable_min": 6},
+        {"parameter_id": "total_coliform", "parameter": "Total Coliform", "unit": "MPN/100mL", "acceptable_max": 50},
+        {"parameter_id": "biochemical_oxygen_demand", "parameter": "Biochemical Oxygen Demand", "unit": "mg/L", "acceptable_max": 2, "method_confirmed": false, "method_note": "The source column does not state the CPCB BOD 5-day at 20°C method."}
+      ]
+    },
+    {
+      "id": "surface_cpcb_b",
+      "name": "Surface water · CPCB Class B",
+      "water_source": "surface_water",
+      "standard_reference": "CPCB Designated Best Use Water Quality Criteria, Class B",
+      "reference_url": "https://cpcb.nic.in/wqm/Designated_Best_Use_Water_Quality_Criteria.pdf",
+      "description": "Outdoor bathing (organised).",
+      "criteria": [
+        {"parameter_id": "ph", "parameter": "pH", "unit": "", "acceptable_min": 6.5, "acceptable_max": 8.5},
+        {"parameter_id": "dissolved_oxygen", "parameter": "Dissolved Oxygen", "unit": "mg/L", "acceptable_min": 5},
+        {"parameter_id": "total_coliform", "parameter": "Total Coliform", "unit": "MPN/100mL", "acceptable_max": 500},
+        {"parameter_id": "biochemical_oxygen_demand", "parameter": "Biochemical Oxygen Demand", "unit": "mg/L", "acceptable_max": 3, "method_confirmed": false, "method_note": "The source column does not state the CPCB BOD 5-day at 20°C method."}
+      ]
+    },
+    {
+      "id": "surface_cpcb_c",
+      "name": "Surface water · CPCB Class C",
+      "water_source": "surface_water",
+      "standard_reference": "CPCB Designated Best Use Water Quality Criteria, Class C",
+      "reference_url": "https://cpcb.nic.in/wqm/Designated_Best_Use_Water_Quality_Criteria.pdf",
+      "description": "Drinking-water source after conventional treatment and disinfection.",
+      "criteria": [
+        {"parameter_id": "ph", "parameter": "pH", "unit": "", "acceptable_min": 6.0, "acceptable_max": 9.0},
+        {"parameter_id": "dissolved_oxygen", "parameter": "Dissolved Oxygen", "unit": "mg/L", "acceptable_min": 4},
+        {"parameter_id": "total_coliform", "parameter": "Total Coliform", "unit": "MPN/100mL", "acceptable_max": 5000},
+        {"parameter_id": "biochemical_oxygen_demand", "parameter": "Biochemical Oxygen Demand", "unit": "mg/L", "acceptable_max": 3, "method_confirmed": false, "method_note": "The source column does not state the CPCB BOD 5-day at 20°C method."}
+      ]
+    },
+    {
+      "id": "surface_cpcb_d",
+      "name": "Surface water · CPCB Class D",
+      "water_source": "surface_water",
+      "standard_reference": "CPCB Designated Best Use Water Quality Criteria, Class D",
+      "reference_url": "https://cpcb.nic.in/wqm/Designated_Best_Use_Water_Quality_Criteria.pdf",
+      "description": "Propagation of wildlife and fisheries.",
+      "criteria": [
+        {"parameter_id": "ph", "parameter": "pH", "unit": "", "acceptable_min": 6.5, "acceptable_max": 8.5},
+        {"parameter_id": "dissolved_oxygen", "parameter": "Dissolved Oxygen", "unit": "mg/L", "acceptable_min": 4},
+        {"parameter_id": "free_ammonia_n", "parameter": "Free Ammonia (as N)", "unit": "mgN/L", "acceptable_max": 1.2}
+      ]
+    },
+    {
+      "id": "surface_cpcb_e",
+      "name": "Surface water · CPCB Class E",
+      "water_source": "surface_water",
+      "standard_reference": "CPCB Designated Best Use Water Quality Criteria, Class E",
+      "reference_url": "https://cpcb.nic.in/wqm/Designated_Best_Use_Water_Quality_Criteria.pdf",
+      "description": "Irrigation, industrial cooling, and controlled waste disposal.",
+      "criteria": [
+        {"parameter_id": "ph", "parameter": "pH", "unit": "", "acceptable_min": 6.0, "acceptable_max": 8.5},
+        {"parameter_id": "electrical_conductivity", "parameter": "Electrical Conductivity", "unit": "µS/cm", "acceptable_max": 2250, "method_confirmed": false, "method_note": "CPCB specifies conductivity at 25°C; the source data does not record the reference temperature."},
+        {"parameter_id": "sodium_adsorption_ratio", "parameter": "Sodium Adsorption Ratio", "unit": "%", "acceptable_max": 26, "method_confirmed": false, "method_note": "CPCB's maximum is a ratio; the source field labels its value as percent and the unit basis is not verified."},
+        {"parameter_id": "boron", "parameter": "Boron", "unit": "mg/L", "acceptable_max": 2}
+      ]
+    }
+  ],
+  "overall_assessment_note": "These results are parameter-level comparisons only. They do not certify complete drinking-water safety."
+}
