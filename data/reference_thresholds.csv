@@ -1,0 +1,5 @@
+parameter,minimum_value,maximum_value,unit,reference_name,source_organization,source_url,applicability_notes,is_verified
+pH,6.5,8.5,pH units,ILLUSTRATIVE DEMO RANGE (not a regulatory limit),None - placeholder for demonstration,,Demo only. Replace with a verified standard for the relevant water type and intended use.,false
+Dissolved oxygen,5,,mg/L,ILLUSTRATIVE DEMO RANGE (not a regulatory limit),None - placeholder for demonstration,,Demo only. One-sided (minimum only).,false
+Nitrate,,10,mg/L,ILLUSTRATIVE DEMO RANGE (not a regulatory limit),None - placeholder for demonstration,,Demo only. One-sided (maximum only).,false
+Turbidity,,5,NTU,ILLUSTRATIVE DEMO RANGE (not a regulatory limit),None - placeholder for demonstration,,Demo only. One-sided (maximum only).,false

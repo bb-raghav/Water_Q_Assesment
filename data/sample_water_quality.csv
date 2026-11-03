@@ -1,0 +1,178 @@
+site_id,site_name,region,latitude,longitude,sampling_date,parameter,measured_value,unit,data_source
+S01,Demo Site A,North Basin,13.35,77.1,2025-01-15,pH,7.48,pH units,Synthetic demo data
+S01,Demo Site A,North Basin,13.35,77.1,2025-01-15,Dissolved oxygen,6.38,mg/L,Synthetic demo data
+S01,Demo Site A,North Basin,13.35,77.1,2025-01-15,Nitrate,4.75,mg/L,Synthetic demo data
+S01,Demo Site A,North Basin,13.35,77.1,2025-01-15,Turbidity,2.47,NTU,Synthetic demo data
+S01,Demo Site A,North Basin,13.35,77.1,2025-01-15,Conductivity,371.96,µS/cm,Synthetic demo data
+S01,Demo Site A,North Basin,13.35,77.1,2025-03-15,pH,7.07,pH units,Synthetic demo data
+S01,Demo Site A,North Basin,13.35,77.1,2025-03-15,Dissolved oxygen,7.08,mg/L,Synthetic demo data
+S01,Demo Site A,North Basin,13.35,77.1,2025-03-15,Nitrate,3.68,mg/L,Synthetic demo data
+S01,Demo Site A,North Basin,13.35,77.1,2025-03-15,Turbidity,1.99,NTU,Synthetic demo data
+S01,Demo Site A,North Basin,13.35,77.1,2025-03-15,Conductivity,415.88,µS/cm,Synthetic demo data
+S01,Demo Site A,North Basin,13.35,77.1,2025-05-15,pH,7.62,pH units,Synthetic demo data
+S01,Demo Site A,North Basin,13.35,77.1,2025-05-15,Dissolved oxygen,7.47,mg/L,Synthetic demo data
+S01,Demo Site A,North Basin,13.35,77.1,2025-05-15,Nitrate,,mg/L,Synthetic demo data
+S01,Demo Site A,North Basin,13.35,77.1,2025-05-15,Turbidity,2.56,NTU,Synthetic demo data
+S01,Demo Site A,North Basin,13.35,77.1,2025-05-15,Conductivity,468.7,µS/cm,Synthetic demo data
+S01,Demo Site A,North Basin,13.35,77.1,2025-07-15,pH,7.19,pH units,Synthetic demo data
+S01,Demo Site A,North Basin,13.35,77.1,2025-07-15,Dissolved oxygen,7.22,mg/L,Synthetic demo data
+S01,Demo Site A,North Basin,13.35,77.1,2025-07-15,Nitrate,3.04,mg/L,Synthetic demo data
+S01,Demo Site A,North Basin,13.35,77.1,2025-07-15,Turbidity,2.44,NTU,Synthetic demo data
+S01,Demo Site A,North Basin,13.35,77.1,2025-07-15,Conductivity,448.0,µS/cm,Synthetic demo data
+S01,Demo Site A,North Basin,13.35,77.1,2025-09-15,pH,7.35,pH units,Synthetic demo data
+S01,Demo Site A,North Basin,13.35,77.1,2025-09-15,Dissolved oxygen,6.59,mg/L,Synthetic demo data
+S01,Demo Site A,North Basin,13.35,77.1,2025-09-15,Nitrate,5.22,mg/L,Synthetic demo data
+S01,Demo Site A,North Basin,13.35,77.1,2025-09-15,Turbidity,1.92,NTU,Synthetic demo data
+S01,Demo Site A,North Basin,13.35,77.1,2025-09-15,Conductivity,432.87,µS/cm,Synthetic demo data
+S02,Demo Site B,North Basin,13.6,77.4,2025-01-15,pH,7.31,pH units,Synthetic demo data
+S02,Demo Site B,North Basin,13.6,77.4,2025-01-15,Dissolved oxygen,7.32,mg/L,Synthetic demo data
+S02,Demo Site B,North Basin,13.6,77.4,2025-01-15,Nitrate,12.4,mg/L,Synthetic demo data
+S02,Demo Site B,North Basin,13.6,77.4,2025-01-15,Turbidity,2.21,NTU,Synthetic demo data
+S02,Demo Site B,North Basin,13.6,77.4,2025-01-15,Conductivity,467.23,µS/cm,Synthetic demo data
+S02,Demo Site B,North Basin,13.6,77.4,2025-03-15,pH,7.94,pH units,Synthetic demo data
+S02,Demo Site B,North Basin,13.6,77.4,2025-03-15,Dissolved oxygen,6.76,mg/L,Synthetic demo data
+S02,Demo Site B,North Basin,13.6,77.4,2025-03-15,Nitrate,13.1,mg/L,Synthetic demo data
+S02,Demo Site B,North Basin,13.6,77.4,2025-03-15,Turbidity,1.59,NTU,Synthetic demo data
+S02,Demo Site B,North Basin,13.6,77.4,2025-03-15,Conductivity,474.64,µS/cm,Synthetic demo data
+S02,Demo Site B,North Basin,13.6,77.4,2025-05-15,pH,7.68,pH units,Synthetic demo data
+S02,Demo Site B,North Basin,13.6,77.4,2025-05-15,Dissolved oxygen,6.93,mg/L,Synthetic demo data
+S02,Demo Site B,North Basin,13.6,77.4,2025-05-15,Nitrate,14.8,mg/L,Synthetic demo data
+S02,Demo Site B,North Basin,13.6,77.4,2025-05-15,Turbidity,1.59,NTU,Synthetic demo data
+S02,Demo Site B,North Basin,13.6,77.4,2025-05-15,Conductivity,476.02,µS/cm,Synthetic demo data
+S02,Demo Site B,North Basin,13.6,77.4,2025-07-15,pH,7.59,pH units,Synthetic demo data
+S02,Demo Site B,North Basin,13.6,77.4,2025-07-15,Dissolved oxygen,7.33,mg/L,Synthetic demo data
+S02,Demo Site B,North Basin,13.6,77.4,2025-07-15,Nitrate,12.9,mg/L,Synthetic demo data
+S02,Demo Site B,North Basin,13.6,77.4,2025-07-15,Turbidity,2.12,NTU,Synthetic demo data
+S02,Demo Site B,North Basin,13.6,77.4,2025-07-15,Conductivity,454.67,µS/cm,Synthetic demo data
+S02,Demo Site B,North Basin,13.6,77.4,2025-09-15,pH,7.45,pH units,Synthetic demo data
+S02,Demo Site B,North Basin,13.6,77.4,2025-09-15,Dissolved oxygen,7.52,mg/L,Synthetic demo data
+S02,Demo Site B,North Basin,13.6,77.4,2025-09-15,Nitrate,15.2,mg/L,Synthetic demo data
+S02,Demo Site B,North Basin,13.6,77.4,2025-09-15,Turbidity,2.34,NTU,Synthetic demo data
+S02,Demo Site B,North Basin,13.6,77.4,2025-09-15,Conductivity,452.7,µS/cm,Synthetic demo data
+S03,Demo Site C,Central Valley,12.95,77.6,2025-01-15,pH,7.47,pH units,Synthetic demo data
+S03,Demo Site C,Central Valley,12.95,77.6,2025-01-15,Dissolved oxygen,7.38,mg/L,Synthetic demo data
+S03,Demo Site C,Central Valley,12.95,77.6,2025-01-15,Nitrate,2.54,mg/L,Synthetic demo data
+S03,Demo Site C,Central Valley,12.95,77.6,2025-01-15,Turbidity,1.84,NTU,Synthetic demo data
+S03,Demo Site C,Central Valley,12.95,77.6,2025-01-15,Conductivity,431.19,µS/cm,Synthetic demo data
+S03,Demo Site C,Central Valley,12.95,77.6,2025-03-15,pH,,pH units,Synthetic demo data
+S03,Demo Site C,Central Valley,12.95,77.6,2025-03-15,Dissolved oxygen,6.83,mg/L,Synthetic demo data
+S03,Demo Site C,Central Valley,12.95,77.6,2025-03-15,Nitrate,5.49,mg/L,Synthetic demo data
+S03,Demo Site C,Central Valley,12.95,77.6,2025-03-15,Turbidity,1.57,NTU,Synthetic demo data
+S03,Demo Site C,Central Valley,12.95,77.6,2025-03-15,Conductivity,488.73,µS/cm,Synthetic demo data
+S03,Demo Site C,Central Valley,12.95,77.6,2025-05-15,pH,6.98,pH units,Synthetic demo data
+S03,Demo Site C,Central Valley,12.95,77.6,2025-05-15,Dissolved oxygen,6.8,mg/L,Synthetic demo data
+S03,Demo Site C,Central Valley,12.95,77.6,2025-05-15,Nitrate,4.16,mg/L,Synthetic demo data
+S03,Demo Site C,Central Valley,12.95,77.6,2025-05-15,Turbidity,2.29,NTU,Synthetic demo data
+S03,Demo Site C,Central Valley,12.95,77.6,2025-05-15,Conductivity,478.45,µS/cm,Synthetic demo data
+S03,Demo Site C,Central Valley,12.95,77.6,2025-07-15,pH,7.6,pH units,Synthetic demo data
+S03,Demo Site C,Central Valley,12.95,77.6,2025-07-15,Dissolved oxygen,6.79,mg/L,Synthetic demo data
+S03,Demo Site C,Central Valley,12.95,77.6,2025-07-15,Nitrate,3.54,mg/L,Synthetic demo data
+S03,Demo Site C,Central Valley,12.95,77.6,2025-07-15,Turbidity,2.43,NTU,Synthetic demo data
+S03,Demo Site C,Central Valley,12.95,77.6,2025-07-15,Conductivity,442.35,µS/cm,Synthetic demo data
+S03,Demo Site C,Central Valley,12.95,77.6,2025-09-15,pH,7.08,pH units,Synthetic demo data
+S03,Demo Site C,Central Valley,12.95,77.6,2025-09-15,Dissolved oxygen,6.32,mg/L,Synthetic demo data
+S03,Demo Site C,Central Valley,12.95,77.6,2025-09-15,Nitrate,3.08,mg/L,Synthetic demo data
+S03,Demo Site C,Central Valley,12.95,77.6,2025-09-15,Turbidity,2.25,FNU,Synthetic demo data
+S03,Demo Site C,Central Valley,12.95,77.6,2025-09-15,Conductivity,455.7,µS/cm,Synthetic demo data
+S04,Demo Site D,Central Valley,12.7,77.3,2025-01-15,pH,7.57,pH units,Synthetic demo data
+S04,Demo Site D,Central Valley,12.7,77.3,2025-01-15,Dissolved oxygen,6.74,mg/L,Synthetic demo data
+S04,Demo Site D,Central Valley,12.7,77.3,2025-01-15,Nitrate,4.16,mg/L,Synthetic demo data
+S04,Demo Site D,Central Valley,12.7,77.3,2025-01-15,Turbidity,2.31,NTU,Synthetic demo data
+S04,Demo Site D,Central Valley,12.7,77.3,2025-01-15,Conductivity,437.63,µS/cm,Synthetic demo data
+S04,Demo Site D,Central Valley,12.7,77.3,2025-03-15,pH,7.51,pH units,Synthetic demo data
+S04,Demo Site D,Central Valley,12.7,77.3,2025-03-15,Dissolved oxygen,6.6,mg/L,Synthetic demo data
+S04,Demo Site D,Central Valley,12.7,77.3,2025-03-15,Nitrate,3.64,mg/L,Synthetic demo data
+S04,Demo Site D,Central Valley,12.7,77.3,2025-03-15,Turbidity,1.81,NTU,Synthetic demo data
+S04,Demo Site D,Central Valley,12.7,77.3,2025-03-15,Conductivity,402.17,µS/cm,Synthetic demo data
+S04,Demo Site D,Central Valley,12.7,77.3,2025-05-15,pH,7.52,pH units,Synthetic demo data
+S04,Demo Site D,Central Valley,12.7,77.3,2025-05-15,Dissolved oxygen,6.72,mg/L,Synthetic demo data
+S04,Demo Site D,Central Valley,12.7,77.3,2025-05-15,Nitrate,4.01,mg/L,Synthetic demo data
+S04,Demo Site D,Central Valley,12.7,77.3,2025-05-15,Turbidity,2.24,NTU,Synthetic demo data
+S04,Demo Site D,Central Valley,12.7,77.3,2025-05-15,Conductivity,467.86,µS/cm,Synthetic demo data
+S04,Demo Site D,Central Valley,12.7,77.3,2025-07-15,pH,6.1,pH units,Synthetic demo data
+S04,Demo Site D,Central Valley,12.7,77.3,2025-07-15,Dissolved oxygen,6.94,mg/L,Synthetic demo data
+S04,Demo Site D,Central Valley,12.7,77.3,2025-07-15,Nitrate,3.58,mg/L,Synthetic demo data
+S04,Demo Site D,Central Valley,12.7,77.3,2025-07-15,Turbidity,1.96,NTU,Synthetic demo data
+S04,Demo Site D,Central Valley,12.7,77.3,2025-07-15,Conductivity,382.51,µS/cm,Synthetic demo data
+S04,Demo Site D,Central Valley,12.7,77.3,2025-09-15,pH,7.04,pH units,Synthetic demo data
+S04,Demo Site D,Central Valley,12.7,77.3,2025-09-15,Dissolved oxygen,6.21,mg/L,Synthetic demo data
+S04,Demo Site D,Central Valley,12.7,77.3,2025-09-15,Nitrate,3.0,mg/L,Synthetic demo data
+S04,Demo Site D,Central Valley,12.7,77.3,2025-09-15,Turbidity,2.2,NTU,Synthetic demo data
+S04,Demo Site D,Central Valley,12.7,77.3,2025-09-15,Conductivity,413.78,µS/cm,Synthetic demo data
+S05,Demo Site E,Coastal Plain,12.9,74.85,2025-01-15,pH,7.31,pH units,Synthetic demo data
+S05,Demo Site E,Coastal Plain,12.9,74.85,2025-01-15,Dissolved oxygen,7.78,mg/L,Synthetic demo data
+S05,Demo Site E,Coastal Plain,12.9,74.85,2025-01-15,Nitrate,3.64,mg/L,Synthetic demo data
+S05,Demo Site E,Coastal Plain,12.9,74.85,2025-01-15,Turbidity,2.37,NTU,Synthetic demo data
+S05,Demo Site E,Coastal Plain,12.9,74.85,2025-01-15,Conductivity,412.66,µS/cm,Synthetic demo data
+S05,Demo Site E,Coastal Plain,12.9,74.85,2025-03-15,pH,7.35,pH units,Synthetic demo data
+S05,Demo Site E,Coastal Plain,12.9,74.85,2025-03-15,Dissolved oxygen,6.43,mg/L,Synthetic demo data
+S05,Demo Site E,Coastal Plain,12.9,74.85,2025-03-15,Nitrate,3.66,mg/L,Synthetic demo data
+S05,Demo Site E,Coastal Plain,12.9,74.85,2025-03-15,Turbidity,2.42,NTU,Synthetic demo data
+S05,Demo Site E,Coastal Plain,12.9,74.85,2025-03-15,Conductivity,380.91,µS/cm,Synthetic demo data
+S05,Demo Site E,Coastal Plain,12.9,74.85,2025-05-15,pH,7.51,pH units,Synthetic demo data
+S05,Demo Site E,Coastal Plain,12.9,74.85,2025-05-15,Dissolved oxygen,3.8,mg/L,Synthetic demo data
+S05,Demo Site E,Coastal Plain,12.9,74.85,2025-05-15,Nitrate,3.41,mg/L,Synthetic demo data
+S05,Demo Site E,Coastal Plain,12.9,74.85,2025-05-15,Turbidity,1.28,NTU,Synthetic demo data
+S05,Demo Site E,Coastal Plain,12.9,74.85,2025-05-15,Conductivity,452.89,µS/cm,Synthetic demo data
+S05,Demo Site E,Coastal Plain,12.9,74.85,2025-07-15,pH,7.27,pH units,Synthetic demo data
+S05,Demo Site E,Coastal Plain,12.9,74.85,2025-07-15,Dissolved oxygen,3.2,mg/L,Synthetic demo data
+S05,Demo Site E,Coastal Plain,12.9,74.85,2025-07-15,Nitrate,4.02,mg/L,Synthetic demo data
+S05,Demo Site E,Coastal Plain,12.9,74.85,2025-07-15,Turbidity,2.8,NTU,Synthetic demo data
+S05,Demo Site E,Coastal Plain,12.9,74.85,2025-07-15,Conductivity,440.43,µS/cm,Synthetic demo data
+S05,Demo Site E,Coastal Plain,12.9,74.85,2025-09-15,pH,7.14,pH units,Synthetic demo data
+S05,Demo Site E,Coastal Plain,12.9,74.85,2025-09-15,Dissolved oxygen,3.5,mg/L,Synthetic demo data
+S05,Demo Site E,Coastal Plain,12.9,74.85,2025-09-15,Nitrate,4.22,mg/L,Synthetic demo data
+S05,Demo Site E,Coastal Plain,12.9,74.85,2025-09-15,Turbidity,2.68,NTU,Synthetic demo data
+S05,Demo Site E,Coastal Plain,12.9,74.85,2025-09-15,Conductivity,483.4,µS/cm,Synthetic demo data
+S06,Demo Site F,Coastal Plain,13.35,74.75,2025-01-15,pH,7.49,pH units,Synthetic demo data
+S06,Demo Site F,Coastal Plain,13.35,74.75,2025-01-15,Dissolved oxygen,,mg/L,Synthetic demo data
+S06,Demo Site F,Coastal Plain,13.35,74.75,2025-01-15,Nitrate,2.81,mg/L,Synthetic demo data
+S06,Demo Site F,Coastal Plain,13.35,74.75,2025-01-15,Turbidity,1.68,NTU,Synthetic demo data
+S06,Demo Site F,Coastal Plain,13.35,74.75,2025-01-15,Conductivity,412.94,µS/cm,Synthetic demo data
+S06,Demo Site F,Coastal Plain,13.35,74.75,2025-03-15,pH,7.3,pH units,Synthetic demo data
+S06,Demo Site F,Coastal Plain,13.35,74.75,2025-03-15,Dissolved oxygen,6.17,mg/L,Synthetic demo data
+S06,Demo Site F,Coastal Plain,13.35,74.75,2025-03-15,Nitrate,4.64,mg/L,Synthetic demo data
+S06,Demo Site F,Coastal Plain,13.35,74.75,2025-03-15,Turbidity,1.89,NTU,Synthetic demo data
+S06,Demo Site F,Coastal Plain,13.35,74.75,2025-03-15,Conductivity,391.17,µS/cm,Synthetic demo data
+S06,Demo Site F,Coastal Plain,13.35,74.75,2025-05-15,pH,7.15,pH units,Synthetic demo data
+S06,Demo Site F,Coastal Plain,13.35,74.75,2025-05-15,Dissolved oxygen,7.19,mg/L,Synthetic demo data
+S06,Demo Site F,Coastal Plain,13.35,74.75,2025-05-15,Nitrate,4.84,mg/L,Synthetic demo data
+S06,Demo Site F,Coastal Plain,13.35,74.75,2025-05-15,Turbidity,3.0,NTU,Synthetic demo data
+S06,Demo Site F,Coastal Plain,13.35,74.75,2025-05-15,Conductivity,566.55,µS/cm,Synthetic demo data
+S06,Demo Site F,Coastal Plain,13.35,74.75,2025-07-15,pH,7.5,pH units,Synthetic demo data
+S06,Demo Site F,Coastal Plain,13.35,74.75,2025-07-15,Dissolved oxygen,6.41,mg/L,Synthetic demo data
+S06,Demo Site F,Coastal Plain,13.35,74.75,2025-07-15,Nitrate,1.87,mg/L,Synthetic demo data
+S06,Demo Site F,Coastal Plain,13.35,74.75,2025-07-15,Turbidity,2.13,NTU,Synthetic demo data
+S06,Demo Site F,Coastal Plain,13.35,74.75,2025-07-15,Conductivity,417.48,µS/cm,Synthetic demo data
+S06,Demo Site F,Coastal Plain,13.35,74.75,2025-09-15,pH,8.9,pH units,Synthetic demo data
+S06,Demo Site F,Coastal Plain,13.35,74.75,2025-09-15,Dissolved oxygen,6.63,mg/L,Synthetic demo data
+S06,Demo Site F,Coastal Plain,13.35,74.75,2025-09-15,Nitrate,3.86,mg/L,Synthetic demo data
+S06,Demo Site F,Coastal Plain,13.35,74.75,2025-09-15,Turbidity,2.53,NTU,Synthetic demo data
+S06,Demo Site F,Coastal Plain,13.35,74.75,2025-09-15,Conductivity,456.28,µS/cm,Synthetic demo data
+S07,Demo Site G,Central Valley,,,2025-01-15,pH,7.36,pH units,Synthetic demo data
+S07,Demo Site G,Central Valley,,,2025-01-15,Dissolved oxygen,6.38,mg/L,Synthetic demo data
+S07,Demo Site G,Central Valley,,,2025-01-15,Nitrate,2.33,mg/L,Synthetic demo data
+S07,Demo Site G,Central Valley,,,2025-01-15,Turbidity,1.76,NTU,Synthetic demo data
+S07,Demo Site G,Central Valley,,,2025-01-15,Conductivity,447.85,µS/cm,Synthetic demo data
+S07,Demo Site G,Central Valley,,,2025-03-15,pH,7.84,pH units,Synthetic demo data
+S07,Demo Site G,Central Valley,,,2025-03-15,Dissolved oxygen,7.08,mg/L,Synthetic demo data
+S07,Demo Site G,Central Valley,,,2025-03-15,Nitrate,4.98,mg/L,Synthetic demo data
+S07,Demo Site G,Central Valley,,,2025-03-15,Turbidity,1.75,NTU,Synthetic demo data
+S07,Demo Site G,Central Valley,,,2025-03-15,Conductivity,402.6,µS/cm,Synthetic demo data
+S07,Demo Site G,Central Valley,,,2025-05-15,pH,7.16,pH units,Synthetic demo data
+S07,Demo Site G,Central Valley,,,2025-05-15,Dissolved oxygen,6.56,mg/L,Synthetic demo data
+S07,Demo Site G,Central Valley,,,2025-05-15,Nitrate,6.13,mg/L,Synthetic demo data
+S07,Demo Site G,Central Valley,,,2025-05-15,Turbidity,1.59,NTU,Synthetic demo data
+S07,Demo Site G,Central Valley,,,2025-05-15,Conductivity,483.54,µS/cm,Synthetic demo data
+S07,Demo Site G,Central Valley,,,2025-07-15,pH,7.17,pH units,Synthetic demo data
+S07,Demo Site G,Central Valley,,,2025-07-15,Dissolved oxygen,7.56,mg/L,Synthetic demo data
+S07,Demo Site G,Central Valley,,,2025-07-15,Nitrate,4.38,mg/L,Synthetic demo data
+S07,Demo Site G,Central Valley,,,2025-07-15,Turbidity,,NTU,Synthetic demo data
+S07,Demo Site G,Central Valley,,,2025-07-15,Conductivity,448.37,µS/cm,Synthetic demo data
+S07,Demo Site G,Central Valley,,,2025-09-15,pH,7.24,pH units,Synthetic demo data
+S07,Demo Site G,Central Valley,,,2025-09-15,Dissolved oxygen,7.27,mg/L,Synthetic demo data
+S07,Demo Site G,Central Valley,,,2025-09-15,Nitrate,3.55,mg/L,Synthetic demo data
+S07,Demo Site G,Central Valley,,,2025-09-15,Turbidity,1.39,NTU,Synthetic demo data
+S07,Demo Site G,Central Valley,,,2025-09-15,Conductivity,398.88,µS/cm,Synthetic demo data
+S01,Demo Site A,North Basin,13.35,77.1,2025-01-15,pH,7.48,pH units,Synthetic demo data
+S01,Demo Site A,North Basin,13.35,77.1,not-a-date,pH,7.07,pH units,Synthetic demo data
