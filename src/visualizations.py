@@ -18,15 +18,15 @@ MARKER_STYLE   = {WITHIN: ("green", "ok-sign"), ABOVE: ("red", "arrow-up"), BELO
                   MIXED: ("purple", "random"), INSUFFICIENT: ("lightgray", "question-sign")}
 
 # ── Water-theme palette & shared Plotly layout ───────────────────────────────
-OCEAN = "#315f4e"
-AQUA  = "#8da98d"
-TEAL  = "#547a68"
+OCEAN = "#2f7475"
+AQUA  = "#8bbdb5"
+TEAL  = "#4b9290"
 
 _FONT   = "system-ui, -apple-system, Segoe UI, sans-serif"
 _LAYOUT = dict(
     paper_bgcolor = "rgba(0,0,0,0)",
     plot_bgcolor  = "rgba(0,0,0,0)",
-    font          = dict(family=_FONT, size=12, color="#26332c"),
+    font          = dict(family=_FONT, size=12, color="#283a3b"),
     margin        = dict(l=10, r=10, t=48, b=12),
     legend        = dict(
         orientation="h", yanchor="bottom", y=1.02,
@@ -61,7 +61,7 @@ def status_breakdown_chart(df: pd.DataFrame) -> go.Figure | None:
         ),
         text=[f"  <b>{v:,}</b>" for v in counts.values],
         textposition="outside",
-        textfont=dict(size=11, color="#26332c", family=_FONT),
+        textfont=dict(size=11, color="#283a3b", family=_FONT),
         cliponaxis=False,
     ))
     fig.update_layout(**{
@@ -76,7 +76,7 @@ def status_breakdown_chart(df: pd.DataFrame) -> go.Figure | None:
         ),
         "yaxis": dict(
             autorange="reversed",
-            tickfont=dict(size=11.5, family=_FONT, color="#26332c"),
+            tickfont=dict(size=11.5, family=_FONT, color="#283a3b"),
         ),
         "showlegend": False,
     })
@@ -122,7 +122,7 @@ def trend_chart(df, parameter, unit, info=None):
     _threshold_lines(fig, info)
     fig.update_layout(
         **_LAYOUT,
-        title=dict(text=f"<b>{parameter}</b> over time", font=dict(size=14, color="#263d32")),
+        title=dict(text=f"<b>{parameter}</b> over time", font=dict(size=14, color="#214f52")),
         xaxis_title="Sampling date",
         yaxis_title=f"{parameter} ({unit})",
         legend_title="Site",
@@ -138,13 +138,13 @@ def regional_chart(summary, parameter, unit):
         text=[f"n={n}" for n in summary["n"]],
         hover_data={"n": True, "sites": True, "median": ":.2f", "min": ":.2f", "max": ":.2f"},
         color="mean",
-        color_continuous_scale=[[0, "#e7eee3"], [0.5, AQUA], [1, "#263d32"]],
+        color_continuous_scale=[[0, "#e7eee3"], [0.5, AQUA], [1, "#214f52"]],
     )
     fig.update_traces(textposition="outside", marker_line_width=0)
     fig.update_coloraxes(showscale=False)
     fig.update_layout(
         **_LAYOUT,
-        title=dict(text=f"<b>Mean {parameter}</b> by region", font=dict(size=14, color="#263d32")),
+        title=dict(text=f"<b>Mean {parameter}</b> by region", font=dict(size=14, color="#214f52")),
         xaxis_title="Region",
         yaxis_title=f"Mean {parameter} ({unit})",
     )
@@ -170,7 +170,7 @@ def distribution_chart(df, parameter, unit, info=None):
     _threshold_lines(fig, info, axis="x")
     fig.update_layout(
         **_LAYOUT,
-        title=dict(text=f"<b>Distribution</b> of {parameter} (n={len(d)})", font=dict(size=14, color="#263d32")),
+        title=dict(text=f"<b>Distribution</b> of {parameter} (n={len(d)})", font=dict(size=14, color="#214f52")),
         xaxis_title=f"{parameter} ({unit})",
     )
     return fig
@@ -191,7 +191,7 @@ def threshold_chart(df, parameter, unit, info=None):
     _threshold_lines(fig, info)
     fig.update_layout(
         **_LAYOUT,
-        title=dict(text=f"<b>{parameter}</b>: measurements vs reference limits", font=dict(size=14, color="#263d32")),
+        title=dict(text=f"<b>{parameter}</b>: measurements vs reference limits", font=dict(size=14, color="#214f52")),
         xaxis_title="Site",
         yaxis_title=f"{parameter} ({unit})",
         legend_title="Status",
